@@ -1,0 +1,54 @@
+﻿<?xml version = "1.0" encoding = "UTF-8" ?>
+<Application xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:local="clr-namespace:ZT_StockMNG"
+             x:Class="ZT_StockMNG.App">
+    <Application.Resources>
+
+        <Color x:Key="CardBackground">DarkSlateBlue</Color>
+
+        <Style x:Key="CardView" TargetType="Frame">
+            <Setter Property="BorderColor" Value="#DDDDDD"/>
+            <Setter Property="HasShadow" Value="{OnPlatform iOS=false, MacCatalyst=false, Default=true}"/>
+            <Setter Property="Padding" Value="12"/>
+            <Setter Property="Background" Value= "{StaticResource CardBackground}"/>
+            <Setter Property="CornerRadius" Value="16"/>
+            <Setter Property="IsClippedToBounds" Value="True"/>
+        </Style>
+
+        <Style x:Key="GridHeaderLabel" TargetType="Label">
+            <Setter Property="HorizontalOptions" Value="CenterAndExpand" />
+            <Setter Property="TextColor" Value="White" />
+            <Setter Property="FontAttributes" Value="None" />
+            <Setter Property="FontSize" Value="16" />
+            <Setter Property="FontFamily" Value="CenturyGothic" />
+        </Style>
+
+        <Style x:Key="GridLabel" TargetType="Label">
+            <Setter Property="HorizontalOptions" Value="CenterAndExpand" />
+            <Setter Property="VerticalOptions" Value="CenterAndExpand" />
+            <Setter Property="TextColor" Value="White" />
+            <Setter Property="FontSize" Value="18" />
+            <Setter Property="FontFamily" Value="CenturyGothic" />
+        </Style>
+
+        <Style x:Key="SaveButton" TargetType="Button">
+            <Setter Property="BackgroundColor" Value="LawnGreen" />
+            <Setter Property="CornerRadius" Value="4" />
+            <Setter Property="Margin" Value="2" />
+            <Setter Property="FontAttributes" Value="Bold" />
+            <Setter Property="FontFamily" Value="CenturyGothic" />
+            
+        </Style>
+
+        <Style x:Key="SearchBar" TargetType="SearchBar">
+            <Setter Property="CancelButtonColor" Value="SlateBlue" />
+            <Setter Property="BackgroundColor" Value="DarkSlateBlue" />
+            <Setter Property="Margin" Value="8" />
+            <Setter Property="FontFamily" Value="CenturyGothic" />
+            <Setter Property="FontSize" Value="Small" />
+            <Setter Property="TextColor" Value="White" />
+        </Style>
+
+    </Application.Resources>
+</Application>
