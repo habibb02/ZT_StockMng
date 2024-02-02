@@ -8,6 +8,6 @@ namespace ZT_StockMNG
 {
     public static class Constants
     {
-        public static string APIBaseUrl = "http://192.168.100.111/StockMngAPI";
+        public static string APIBaseUrl = "http://192.168.100.111/StockMngAPI/";
     }
 }

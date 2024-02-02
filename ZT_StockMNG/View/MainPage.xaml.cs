@@ -12,5 +12,15 @@ namespace ZT_StockMNG
             InitializeComponent();
             BindingContext = viewModel;
         }
+
+        private void qtyEntry_Focused(object sender, FocusEventArgs e)
+        {
+            Entry qtyEntry = (sender as Entry);
+
+            qtyEntry.IsEnabled = false;
+            qtyEntry.IsEnabled = true;
+
+            qtyEntry.ReturnCommand.Execute(qtyEntry.ReturnCommandParameter);
+        }
     }
 }

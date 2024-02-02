@@ -12,8 +12,13 @@ namespace ZT_StockMNG
                 .UseMauiApp<App>()
                 .ConfigureFonts(fonts =>
                 {
+                    //default
                     fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");
                     fonts.AddFont("OpenSans-Semibold.ttf", "OpenSansSemibold");
+
+                    //added
+                    fonts.AddFont("CenturyGothic-Regular.TTF", "CenturyGothic");
+                    fonts.AddFont("CenturyGothic-Bold.TTF", "CenturyGothicBold");
                 });
 
 #if DEBUG

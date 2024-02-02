@@ -43,7 +43,7 @@ namespace ZT_StockMNG.Service
             }
         }
 
-        public async Task<List<Article>> GetArticlesByAsync(string articleCode, string description, decimal qty)
+        public async Task<List<Article>> GetArticlesByAsync(string articleCode = "", string description = "", decimal qty = 0)
         {
             Uri uri = new Uri($"{Constants.APIBaseUrl}Article/GetArticlesBy?articleCode={articleCode}&description={description}&qty={qty}");
 
@@ -75,6 +75,28 @@ namespace ZT_StockMNG.Service
             {
                 HttpContent reqContent = new StringContent(JsonConvert.SerializeObject(article), Encoding.UTF8, "application/json");
                 var response = await client.PostAsync(uri, reqContent);
+
+                if (response.IsSuccessStatusCode)
+                {
+                    var content = await response.Content.ReadAsStringAsync();
+                    List<Article> result = JsonConvert.DeserializeObject<List<Article>>(content);
+                }
+                else
+                    throw new Exception(response.ReasonPhrase);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        public async Task RemoveArticleAsync(string articleCode)
+        {
+            Uri uri = new Uri($"{Constants.APIBaseUrl}Article/DeleteArticle?articleCode={articleCode}");
+
+            try
+            {
+                var response = await client.DeleteAsync(uri);
 
                 if (response.IsSuccessStatusCode)
                 {

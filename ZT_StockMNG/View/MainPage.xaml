@@ -5,94 +5,95 @@
              xmlns:viewmodel="clr-namespace:ZT_StockMNG.ViewModel"
              x:DataType="viewmodel:MainPageViewModel"
              BackgroundColor="SlateBlue"
+             x:Name="Page"
              x:Class="ZT_StockMNG.MainPage">
-
     <Grid RowDefinitions="auto,*,auto" 
-          RowSpacing="0" 
+          RowSpacing="0"
           ColumnSpacing="5">
-        <Grid ColumnDefinitions="*,auto" RowDefinitions="auto, auto" Grid.Row="0">
-            <SearchBar x:Name="SearchBar" 
-                   Style="{StaticResource SearchBar}"
-                   Placeholder="Cerca..."
-                   SearchCommand="{Binding SearchArticleCommand}"
-                   SearchCommandParameter="{Binding Source={x:Reference SearchBar}, Path=Text}"
-                   Grid.Row="0" />
-            <Button Text="Carica" 
+        <Grid ColumnDefinitions="*,auto" RowDefinitions="auto, auto, auto" Grid.Row="0">
+            <SearchBar x:Name="articlesSearchBar" Style="{StaticResource SearchBar}"
+                       Placeholder="Cerca..."
+                       SearchCommand="{Binding SearchListCommand}"
+                       SearchCommandParameter="{Binding Source={x:Reference articlesSearchBar}, Path=Text}"
+                       Grid.Row="0" />
+            <Button Text="Carica tutti" 
                     Margin="2,8"
-                    CornerRadius="8"
-                    Command="{Binding GetMaterialCommand}"
-                    IsEnabled="{Binding isNotBusy}"
-                    BackgroundColor="BlueViolet"
                     FontAttributes="Bold"
+                    CornerRadius="4"
+                    Command="{Binding GetAllArticlesListCommand}"
+                    IsEnabled="{Binding isNotBusy}"
+                    BorderColor="#DDDDDD"
+                    BorderWidth="0.5"
+                    BackgroundColor="DarkViolet"
                     Grid.Column="1" />
-            <!--<Entry x:Name="testEntry" 
-                   Text="Test"
-                   Keyboard="Numeric"
-                   Grid.ColumnSpan="2" Grid.Row="1" />-->
+            <Frame Style="{StaticResource CardView}" IsVisible="{Binding StockArticles.Count}" 
+                   CornerRadius="4" Padding="2" Margin="4" 
+                   Grid.Row="2" Grid.ColumnSpan="2">
+                <Grid ColumnDefinitions="*,*,*" Padding="4"
+                      Grid.Row="2" Grid.ColumnSpan="2">
+                    <Label Text="Codice" 
+                           Style="{StaticResource GridHeaderLabel}" 
+                           HorizontalOptions="Start" Grid.Column="0" />
+                    <Label Text="Descrizione" 
+                           Style="{StaticResource GridHeaderLabel}" 
+                           HorizontalOptions="CenterAndExpand" Grid.Column="1"/>
+                    <Label Text="Quantità" 
+                           Style="{StaticResource GridHeaderLabel}" 
+                           HorizontalOptions="End" Grid.Column="2" />
+                </Grid>
+            </Frame>
         </Grid>
-        <RefreshView Command="{Binding GetMaterialCommand}" 
+        <RefreshView Command="{Binding SearchListCommand}" 
+                     CommandParameter="{Binding Source={x:Reference articlesSearchBar}, Path=Text}"
                      IsRefreshing="{Binding IsRefreshing}" 
                      Grid.Row="1">
             <CollectionView ItemsSource="{Binding StockArticles}"
+                            x:Name="articlesCollectionView"
                             SelectionMode="None">
+                <CollectionView.EmptyView>
+                    <Label Text="Nessun elemento trovato." 
+                           Style="{StaticResource GridLabel}" 
+                           VerticalOptions="Start" HorizontalOptions="Start" Margin="4"/>
+                </CollectionView.EmptyView>
                 <CollectionView.ItemTemplate>
                     <DataTemplate x:DataType="model:Article">
-                        <Grid Padding="4">
-                            <Frame Style="{StaticResource CardView}">
-                                <Grid ColumnDefinitions="auto,*,auto" 
-                                      ColumnSpacing="8"
-                                      RowDefinitions="auto, auto">
-                                    <Label Text="Cod. Art." 
-                                           Style="{StaticResource GridHeaderLabel}" 
-                                           Grid.Column="0" 
-                                           Grid.Row="0" />
-                                    <Label Text="Descrizione" 
-                                           Style="{StaticResource GridHeaderLabel}" 
-                                           Grid.Column="1" 
-                                           Grid.Row="0" />
-                                    <Label Text="Qta." 
-                                           Style="{StaticResource GridHeaderLabel}" 
-                                           Grid.Column="2"
-                                           Grid.Row="0" />
-                                    <Label Text="{Binding ArticleCode}" 
-                                           Style="{StaticResource GridLabel}" 
-                                           FontAttributes="Bold"
-                                           Grid.Column="0"
-                                           Grid.Row="1" />
-                                    <Label Text="{Binding Description}"
-                                           Style="{StaticResource GridLabel}"
-                                           LineBreakMode="WordWrap"
-                                           Grid.Column="1"
-                                           Grid.Row="1" />
-                                    <Frame BackgroundColor="SlateBlue" 
-                                           BorderColor="Transparent"
-                                           VerticalOptions="Center"
-                                           CornerRadius="4"
-                                           Padding="16,0"
-                                           Grid.Column="2" 
-                                           Grid.Row="1">
-                                        <Entry x:Name="qtyEntry" 
-                                               Text="{Binding Qty}"
+                        <SwipeView Background="Transparent">
+                            <SwipeView.LeftItems>
+                                <SwipeItem Text="Elimina"
+                                           BackgroundColor="Red" 
+                                           Command="{Binding Source={x:Reference Page}, Path=BindingContext.RemoveArticleCommand}"
+                                           CommandParameter="{Binding .}" />
+                            </SwipeView.LeftItems>
+                            <Grid Padding="4">
+                                <Frame Style="{StaticResource CardView}">
+                                    <Grid ColumnDefinitions="auto, *, auto" RowDefinitions="auto" ColumnSpacing="8">
+                                        <Label Text="{Binding ArticleCode}" 
+                                                Style="{StaticResource GridLabel}" 
+                                                FontAttributes="Bold"
+                                                Grid.Column="0" />
+                                        <Label Text="{Binding Description}"
                                                Style="{StaticResource GridLabel}"
-                                               IsEnabled="False"
-                                               HorizontalTextAlignment="Center"
-                                               FontSize="Medium"
-                                               Margin="2"
-                                               Grid.Column="2"
-                                               Grid.Row="1" />
-                                    </Frame>
-                                </Grid>
-                            </Frame>
-                        </Grid>
+                                               LineBreakMode="WordWrap"
+                                               Grid.Column="1" />
+                                        <Frame BackgroundColor="SlateBlue" BorderColor="Transparent"
+                                               CornerRadius="4" Padding="2,0" VerticalOptions="Center"
+                                               Grid.Column="2">
+                                            <StackLayout>
+                                                <Entry x:Name="qtyEntry" Text="{Binding Qty}" Style="{StaticResource GridLabel}"
+                                                       IsEnabled="True" FontSize="Medium" Margin="0" Focused="qtyEntry_Focused"
+                                                       HorizontalTextAlignment="Center"
+                                                       ReturnCommand="{Binding Source={x:Reference Page}, Path=BindingContext.ModifyArticleQuantityCommand}" 
+                                                       ReturnCommandParameter="{Binding .}" />
+                                            </StackLayout>
+                                        </Frame>
+                                    </Grid>
+                                </Frame>
+                            </Grid>
+                        </SwipeView>
                     </DataTemplate>
                 </CollectionView.ItemTemplate>
             </CollectionView>
         </RefreshView>
-        <Button Text="Salva" 
-                Style="{StaticResource SaveButton}"
-                Command="{Binding SaveCommand}"
-                IsEnabled="{Binding isNotBusy}"
-                Grid.Row="2" />
         <ActivityIndicator IsVisible="{Binding IsBusy}" 
                            IsRunning="{Binding IsBusy}"
                            HorizontalOptions="FillAndExpand" 
