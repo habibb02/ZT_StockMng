@@ -1,4 +1,5 @@
 ﻿using Microsoft.Extensions.Logging;
+using ZT_StockMNG.View.StockArticle;
 using ZT_StockMNG.ViewModel;
 
 namespace ZT_StockMNG
@@ -26,8 +27,10 @@ namespace ZT_StockMNG
 #endif
 
             builder.Services.AddSingleton<MainPageViewModel>();
+            builder.Services.AddSingleton<NewStockArticleViewModel>();
 
             builder.Services.AddSingleton<MainPage>();
+            builder.Services.AddSingleton<NewStockArticle>();
 
             return builder.Build();
         }

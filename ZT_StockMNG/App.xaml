@@ -11,12 +11,12 @@
             <Setter Property="BorderColor" Value="#DDDDDD"/>
             <Setter Property="HasShadow" Value="{OnPlatform iOS=false, MacCatalyst=false, Default=true}"/>
             <Setter Property="Padding" Value="12"/>
-            <Setter Property="Background" Value= "{StaticResource CardBackground}"/>
+            <Setter Property="BackgroundColor" Value= "{StaticResource CardBackground}"/>
             <Setter Property="CornerRadius" Value="8"/>
             <Setter Property="IsClippedToBounds" Value="True"/>
         </Style>
 
-        <Style x:Key="GridHeaderLabel" TargetType="Label">
+        <Style x:Key="HeaderLabel" TargetType="Label">
             <Setter Property="HorizontalOptions" Value="CenterAndExpand" />
             <Setter Property="TextColor" Value="White" />
             <Setter Property="FontAttributes" Value="None" />
@@ -34,11 +34,32 @@
 
         <Style x:Key="SaveButton" TargetType="Button">
             <Setter Property="BackgroundColor" Value="LawnGreen" />
+            <Setter Property="CornerRadius" Value="12" />
+            <Setter Property="Margin" Value="4" />
+            <Setter Property="FontAttributes" Value="Bold" />
+            <Setter Property="FontFamily" Value="CenturyGothic" />
+            <Setter Property="BorderColor" Value="White" />
+            <Setter Property="BorderWidth" Value="2" />
+        </Style>
+
+        <Style x:Key="InfoButton" TargetType="Button">
+            <Setter Property="BackgroundColor" Value="DeepSkyBlue" />
+            <Setter Property="TextColor" Value="White" />
+            <Setter Property="FontAttributes" Value="Bold" />
+            <Setter Property="FontFamily" Value="CenturyGothic" />
+            <Setter Property="CornerRadius" Value="30" />
+            <Setter Property="Margin" Value="8,4" />
+            <Setter Property="Padding" Value="10,8" />
+            <Setter Property="BorderColor" Value="White" />
+            <Setter Property="BorderWidth" Value="2" />
+        </Style>
+        
+        <Style x:Key="CancelButton" TargetType="Button">
+            <Setter Property="BackgroundColor" Value="Red" />
             <Setter Property="CornerRadius" Value="4" />
             <Setter Property="Margin" Value="2" />
             <Setter Property="FontAttributes" Value="Bold" />
             <Setter Property="FontFamily" Value="CenturyGothic" />
-            
         </Style>
 
         <Style x:Key="SearchBar" TargetType="SearchBar">
@@ -50,5 +71,15 @@
             <Setter Property="TextColor" Value="White" />
         </Style>
 
+        <Style x:Key="Entry" TargetType="Entry">
+            <Setter Property="TextColor" Value="White" />
+        </Style>
+
+        <Style x:Key="EntryFrame" TargetType="Frame">
+            <Setter Property="BackgroundColor" Value="SlateBlue" />
+            <Setter Property="BorderColor" Value="Transparent" />
+            <Setter Property="CornerRadius" Value="4" />
+            <Setter Property="Padding" Value="2,0" />
+        </Style>
     </Application.Resources>
 </Application>

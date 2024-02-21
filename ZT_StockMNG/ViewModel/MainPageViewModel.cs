@@ -1,6 +1,5 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
-using Kotlin.Properties;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -16,7 +15,7 @@ namespace ZT_StockMNG.ViewModel
 {
     public partial class MainPageViewModel : BaseViewModel
     {
-        public string ArticlesSearchBar;
+        public string ArticlesSearchBar { get; set; } = string.Empty;
 
         private ObservableCollection<Article> _stockArticles = new();
         public ObservableCollection<Article> StockArticles { get => _stockArticles; set => _stockArticles = value; }
@@ -89,43 +88,6 @@ namespace ZT_StockMNG.ViewModel
         }
 
         [RelayCommand]
-        async Task SaveAsync()
-        {
-            if (IsBusy)
-                return;
-
-            try
-            {
-                IsBusy = true;
-
-
-                //if (StockArticles.Count == 0)
-                //    await Shell.Current.DisplayAlert("Error", "Non ci sono elementi da modificare.", "Ok");
-
-                //if (Material.Count == 0)
-                //    throw new Exception("Non ci sono elementi.");
-
-                //using var stream = await FileSystem.OpenAppPackageFileAsync(path);
-                //using var reader = new StreamReader(stream);
-
-                //var json = reader.ReadToEnd();
-
-
-
-                await Shell.Current.DisplayAlert("Success", "Le quantità sono state aggiornate con successo!", "Ok");
-            }
-            catch (Exception ex)
-            {
-                Debug.WriteLine(ex);
-                await Shell.Current.DisplayAlert("Error", $"Si è verificato un errore durante il salvataggio delle quantità: {ex.Message}", "Ok");
-            }
-            finally
-            {
-                IsBusy = false;
-            }
-        }
-
-        [RelayCommand]
         async Task RemoveArticle(Article article)
         {
             if (IsBusy)
@@ -135,7 +97,7 @@ namespace ZT_StockMNG.ViewModel
             {
                 IsBusy = true;
 
-                var canExecute = await Shell.Current.DisplayAlert("Elimina", "Se sicuro di voler eliminare l'articolo selezionato?", "Si", "Annulla");
+                var canExecute = await Shell.Current.DisplayAlert("Elimina", "Sei sicuro di voler eliminare l'articolo selezionato?", "Si", "Annulla");
 
                 if (!canExecute)
                     return;
@@ -147,7 +109,6 @@ namespace ZT_StockMNG.ViewModel
                 IsBusy = false;
 
                 await SearchList(ArticlesSearchBar);
-
             }
             catch (Exception ex)
             {
@@ -168,11 +129,8 @@ namespace ZT_StockMNG.ViewModel
 
             try
             {
-                if (article == null)
-                    throw new Exception("L'articolo selezionato non risulta a sistema");
-
                 string lastQuantity = Convert.ToString(article.Qty);
-                string newQuantityStr = await Shell.Current.DisplayPromptAsync($"Articolo:{article.ArticleCode}", "Quantità", "Salva", "Annulla", lastQuantity, keyboard: Keyboard.Numeric, initialValue: lastQuantity);
+                string newQuantityStr = await Shell.Current.DisplayPromptAsync($"Articolo: {article.ArticleCode}", "Modifica quantità", "Salva", "Annulla", lastQuantity, keyboard: Keyboard.Numeric, initialValue: lastQuantity);
 
                 if (string.IsNullOrEmpty(newQuantityStr))
                     return;

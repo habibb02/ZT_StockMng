@@ -7,38 +7,31 @@
              BackgroundColor="SlateBlue"
              x:Name="Page"
              x:Class="ZT_StockMNG.MainPage">
-    <Grid RowDefinitions="auto,*,auto" 
-          RowSpacing="0"
-          ColumnSpacing="5">
-        <Grid ColumnDefinitions="*,auto" RowDefinitions="auto, auto, auto" Grid.Row="0">
-            <SearchBar x:Name="articlesSearchBar" Style="{StaticResource SearchBar}"
-                       Placeholder="Cerca..."
-                       SearchCommand="{Binding SearchListCommand}"
+    <Grid RowDefinitions="auto, *, auto" 
+          RowSpacing="0" ColumnSpacing="5">
+        <Grid ColumnDefinitions="*, auto" 
+              RowDefinitions="auto, auto, auto" 
+              Grid.Row="0">
+            <SearchBar x:Name="articlesSearchBar" Text="{Binding ArticlesSearchBar}"
+                       Style="{StaticResource SearchBar}" Placeholder="Cerca..." 
+                       SearchCommand="{Binding SearchListCommand}" 
                        SearchCommandParameter="{Binding Source={x:Reference articlesSearchBar}, Path=Text}"
                        Grid.Row="0" />
-            <Button Text="Carica tutti" 
-                    Margin="2,8"
-                    FontAttributes="Bold"
-                    CornerRadius="4"
-                    Command="{Binding GetAllArticlesListCommand}"
-                    IsEnabled="{Binding isNotBusy}"
-                    BorderColor="#DDDDDD"
-                    BorderWidth="0.5"
-                    BackgroundColor="DarkViolet"
+            <Button Text="Carica tutti" Margin="2,8" FontAttributes="Bold" BackgroundColor="DarkViolet"
+                    CornerRadius="4" Command="{Binding GetAllArticlesListCommand}"
+                    IsEnabled="{Binding isNotBusy}" BorderColor="#DDDDDD" BorderWidth="0.5"
                     Grid.Column="1" />
-            <Frame Style="{StaticResource CardView}" IsVisible="{Binding StockArticles.Count}" 
+            <Frame Style="{StaticResource CardView}" 
+                   IsVisible="{Binding StockArticles.Count}" 
                    CornerRadius="4" Padding="2" Margin="4" 
                    Grid.Row="2" Grid.ColumnSpan="2">
-                <Grid ColumnDefinitions="*,*,*" Padding="4"
+                <Grid ColumnDefinitions="*, *, *" Padding="4"
                       Grid.Row="2" Grid.ColumnSpan="2">
-                    <Label Text="Codice" 
-                           Style="{StaticResource GridHeaderLabel}" 
+                    <Label Text="Codice" Style="{StaticResource HeaderLabel}" 
                            HorizontalOptions="Start" Grid.Column="0" />
-                    <Label Text="Descrizione" 
-                           Style="{StaticResource GridHeaderLabel}" 
+                    <Label Text="Descrizione" Style="{StaticResource HeaderLabel}" 
                            HorizontalOptions="CenterAndExpand" Grid.Column="1"/>
-                    <Label Text="Quantità" 
-                           Style="{StaticResource GridHeaderLabel}" 
+                    <Label Text="Quantità" Style="{StaticResource HeaderLabel}" 
                            HorizontalOptions="End" Grid.Column="2" />
                 </Grid>
             </Frame>
@@ -48,40 +41,38 @@
                      IsRefreshing="{Binding IsRefreshing}" 
                      Grid.Row="1">
             <CollectionView ItemsSource="{Binding StockArticles}"
-                            x:Name="articlesCollectionView"
                             SelectionMode="None">
                 <CollectionView.EmptyView>
                     <Label Text="Nessun elemento trovato." 
-                           Style="{StaticResource GridLabel}" 
-                           VerticalOptions="Start" HorizontalOptions="Start" Margin="4"/>
+                           Style="{StaticResource GridLabel}" Margin="4"
+                           VerticalOptions="Start" HorizontalOptions="Start" />
                 </CollectionView.EmptyView>
                 <CollectionView.ItemTemplate>
                     <DataTemplate x:DataType="model:Article">
                         <SwipeView Background="Transparent">
                             <SwipeView.LeftItems>
-                                <SwipeItem Text="Elimina"
-                                           BackgroundColor="Red" 
+                                <SwipeItem Text="Elimina" BackgroundColor="DarkRed"
                                            Command="{Binding Source={x:Reference Page}, Path=BindingContext.RemoveArticleCommand}"
                                            CommandParameter="{Binding .}" />
                             </SwipeView.LeftItems>
                             <Grid Padding="4">
                                 <Frame Style="{StaticResource CardView}">
-                                    <Grid ColumnDefinitions="auto, *, auto" RowDefinitions="auto" ColumnSpacing="8">
+                                    <Grid ColumnDefinitions="auto, *, auto" ColumnSpacing="8">
                                         <Label Text="{Binding ArticleCode}" 
-                                                Style="{StaticResource GridLabel}" 
-                                                FontAttributes="Bold"
-                                                Grid.Column="0" />
+                                               Style="{StaticResource GridLabel}" 
+                                               FontAttributes="Bold"
+                                               Grid.Column="0" />
                                         <Label Text="{Binding Description}"
                                                Style="{StaticResource GridLabel}"
                                                LineBreakMode="WordWrap"
                                                Grid.Column="1" />
-                                        <Frame BackgroundColor="SlateBlue" BorderColor="Transparent"
-                                               CornerRadius="4" Padding="2,0" VerticalOptions="Center"
+                                        <Frame Style="{StaticResource EntryFrame}"
+                                               VerticalOptions="Center"
                                                Grid.Column="2">
                                             <StackLayout>
-                                                <Entry x:Name="qtyEntry" Text="{Binding Qty}" Style="{StaticResource GridLabel}"
-                                                       IsEnabled="True" FontSize="Medium" Margin="0" Focused="qtyEntry_Focused"
-                                                       HorizontalTextAlignment="Center"
+                                                <Entry Text="{Binding Qty}" Style="{StaticResource GridLabel}"
+                                                       IsEnabled="True" FontSize="Medium" Margin="0" 
+                                                       Focused="qtyEntry_Focused" HorizontalTextAlignment="Center"
                                                        ReturnCommand="{Binding Source={x:Reference Page}, Path=BindingContext.ModifyArticleQuantityCommand}" 
                                                        ReturnCommandParameter="{Binding .}" />
                                             </StackLayout>
@@ -94,6 +85,16 @@
                 </CollectionView.ItemTemplate>
             </CollectionView>
         </RefreshView>
+        <Grid ColumnDefinitions="*, auto" Grid.Row="2">
+            <Button Text="Aggiungi" Style="{StaticResource SaveButton}"
+                    IsEnabled="{Binding isNotBusy}" Padding="8" 
+                    Clicked="Button_Clicked" 
+                    Grid.Row="2" />
+            <Button Text="AI"
+                    Style="{StaticResource InfoButton}"
+                    IsEnabled="{Binding isNotBusy}" 
+                    Grid.Column="1" />
+        </Grid>
         <ActivityIndicator IsVisible="{Binding IsBusy}" 
                            IsRunning="{Binding IsBusy}"
                            HorizontalOptions="FillAndExpand" 

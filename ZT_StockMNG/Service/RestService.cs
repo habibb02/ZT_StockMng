@@ -67,6 +67,28 @@ namespace ZT_StockMNG.Service
             }
         }
 
+        public async Task AddArticleAsync(Article article)
+        {
+            Uri uri = new Uri($"{Constants.APIBaseUrl}Article/PostAddArticle?&articleDTO={article}");
+
+            try
+            {
+                HttpContent reqContent = new StringContent(JsonConvert.SerializeObject(article), Encoding.UTF8, "application/json");
+                var response = await client.PostAsync(uri, reqContent);
+
+                if (response.IsSuccessStatusCode)
+                {
+                    var content = await response.Content.ReadAsStringAsync();
+                }
+                else
+                    throw new Exception(response.ReasonPhrase);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
         public async Task ModifyArticleAsync(Article article)
         {
             Uri uri = new Uri($"{Constants.APIBaseUrl}Article/PostModifyArticle?&articleDTO={article}");
@@ -79,7 +101,6 @@ namespace ZT_StockMNG.Service
                 if (response.IsSuccessStatusCode)
                 {
                     var content = await response.Content.ReadAsStringAsync();
-                    List<Article> result = JsonConvert.DeserializeObject<List<Article>>(content);
                 }
                 else
                     throw new Exception(response.ReasonPhrase);

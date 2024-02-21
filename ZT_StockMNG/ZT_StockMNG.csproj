@@ -59,7 +59,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <MauiXaml Update="View\TestPage.xaml">
+	  <MauiXaml Update="View\StockArticle\NewStockArticle.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	</ItemGroup>
